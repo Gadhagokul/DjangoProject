@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    tr,td,th{border: 1px solid orange;}
+
+</style>
+<br><br><br><br>
+    <h4>Add Student</h4>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Add" style="background-color: orange;">
+    </form>
+    <h4>Show Student</h4>
+    {% if stu %}
+    <table border="1" >
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for st in stu %}
+        <tr>
+            
+            <td>{{st.name}}</td>
+            <td>{{st.email}}</td>
+            <td>{{st.phone}}</td>
+           
+        <td>
+        <form method="POST" action="{% url 'delete' st.id %}">
+            {%csrf_token%}
+            <input type="submit" value="Delete">
+        </form>
+    </td>
+    <td>
+<form method="POST" action="{% url 'update' st.id %}">
+    {% csrf_token %}
+    <input type="submit" value="Update">
+</form>
+</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+{% endblock %}
